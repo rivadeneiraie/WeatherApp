@@ -4,13 +4,16 @@ import PropTypes from 'prop-types';
 
 import LocationList from './../components/LocationList';
 
-import { getWeatherCities } from './../reducers/';
+import { getWeatherCities, getCity } from './../reducers/';
 import { setSelectedCity, setWeather } from './../actions';
 
 class LocationListContainer extends Component {
 
     componentDidMount(){
-        this.props.setWeather(this.props.cities);
+        const { setWeather, setCity, cities, city} =  this.props;
+        
+        setWeather(cities);
+        setCity(city);
     }
 
     handleSelectionLocation = city => {
@@ -31,6 +34,7 @@ LocationListContainer.propTypes = {
     setCity: PropTypes.func.isRequired,
     cities:PropTypes.array.isRequired,
     citiesWeather:PropTypes.array,
+    city:PropTypes.string.isRequired,
   }
   
 const mapDispatchToPropsActions = dispatch => ({
@@ -40,6 +44,7 @@ const mapDispatchToPropsActions = dispatch => ({
 
 const mapStateToProps = state => ({
     citiesWeather: getWeatherCities(state),
+    city: getCity(state)
 });
 
 export default connect(mapStateToProps, mapDispatchToPropsActions)(LocationListContainer);
